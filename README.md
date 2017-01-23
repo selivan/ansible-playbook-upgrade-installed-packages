@@ -1,2 +1,3 @@
-# ansible-playbook-upgrade-installed-packages
-Ansible playbook to upgrade only packages installed on target host. If you find this useful, please star it on GitHub.
+When upgrading packages on multiple hosts with `-m a-t -a "state=ltest pkg=..."` it's easy to install unnecessary packages on wrong hosts group. This playbook upgrades packages only if they are present on the host. Works for Debian-like distributives(Ubuntu etc).
+
+If you find this useful, please star it on GitHub.
