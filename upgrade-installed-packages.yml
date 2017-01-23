@@ -1,0 +1,17 @@
+# Playbook to upgrade packages on hosts only if they are installed
+- hosts: all
+  become: yes
+  tasks:
+    - name: check arguments
+      fail:
+        msg: Usage ansible-playbook -e 'packages={"git","git-man"}'
+      when: packages is not defined
+    - name: check if packages are installed
+      shell: dpkg -l {{ item }} | grep ^ii
+      failed_when: False
+      register: check_installed
+      with_items: "{{ packages }}"
+    - name: upgrade packages
+      apt: state=latest pkg={{ item.item }}
+      with_items: "{{ check_installed.results }}"
+      when: item.rc == 0
