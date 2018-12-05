@@ -10,8 +10,8 @@
       shell: dpkg -l {{ item }} | grep ^ii
       failed_when: False
       register: check_installed
-      with_items: "{{ packages }}"
+      loop: "{{ packages }}"
     - name: upgrade packages
       apt: state=latest pkg={{ item.item }}
-      with_items: "{{ check_installed.results }}"
+      loop: "{{ check_installed.results }}"
       when: item.rc == 0
